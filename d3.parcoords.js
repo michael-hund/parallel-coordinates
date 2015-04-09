@@ -190,6 +190,11 @@ pc.autoscale = function() {
         }))
         .range([h()+1, 1]);
     },
+    "log1": function(k) {
+      return d3.scale.log()
+        .domain(d3.extent(__.data, function(d) { return +d[k]; }))
+        .range([h()+1, 1]);
+    },
     "number": function(k) {
       return d3.scale.linear()
         .domain(d3.extent(__.data, function(d) { return +d[k]; }))
@@ -805,6 +810,9 @@ pc.brushMode = function(mode) {
     // test if within range
     var within = {
       "date": function(d,p,dimension) {
+        return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1]
+      },
+      "log1": function(d,p,dimension) {
         return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1]
       },
       "number": function(d,p,dimension) {
